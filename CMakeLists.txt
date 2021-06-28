@@ -100,6 +100,7 @@ include_directories(src/include/imgui_markdown)
 include_directories(src/include/imgui_memory_editor)
 include_directories(src/include/imgInspect)
 include_directories(src/include/ImGuiIcons)
+include_directories(src/include/imgui-node-editor)
 
 file(GLOB toml++_headers
         "${toml++_SOURCE_DIR}/include/toml++/*.h"
@@ -186,7 +187,12 @@ set(SOURCES
         src/pf_imgui/layouts/AnchorLayout.cpp
         src/pf_imgui/details/template_instantiations.cpp
         src/pf_imgui/elements/DockSpace.cpp
+        src/include/imgui-node-editor/crude_json.cpp
+        src/include/imgui-node-editor/imgui_canvas.cpp
+        src/include/imgui-node-editor/imgui_node_editor.cpp
+        src/include/imgui-node-editor/imgui_node_editor_api.cpp
 
+        src/pf_imgui/node_edit/TestNodeEdit.cpp
         )
 
 set(INCLUDES
