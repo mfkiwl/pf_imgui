@@ -5,7 +5,7 @@
 #ifndef PF_IMGUI_SRC_PF_IMGUI_NODE_EDIT_TESTNODEEDIT_H
 #define PF_IMGUI_SRC_PF_IMGUI_NODE_EDIT_TESTNODEEDIT_H
 
-#include <imgui_node_editor.h>
+#include <pf_imgui/ imgui_node_editor.h>
 #include <pf_imgui/interface/Element.h>
 
 namespace pf::ui::ig {
