@@ -5,9 +5,9 @@
 #pragma once
 
 // simply expose the existing Dear ImGui API
-#include "imgui/imgui.h"
+#include "imgui.h"
 
-#include "imtui/imtui-impl-text.h"
+#include <pf_imgui/backends/impl/imtui-impl-text.h>
 
 #include <cstring>
 #include <cstdint>
@@ -24,35 +24,35 @@ using TColor = unsigned char;
 using TCell = uint32_t;
 
 struct TScreen {
-    int nx = 0;
-    int ny = 0;
+  int nx = 0;
+  int ny = 0;
 
-    int nmax = 0;
+  int nmax = 0;
 
-    TCell * data = nullptr;
+  TCell * data = nullptr;
 
-    ~TScreen() {
-        if (data) delete [] data;
+  ~TScreen() {
+    if (data) delete [] data;
+  }
+
+  inline int size() const { return nx*ny; }
+
+  inline void clear() {
+    if (data) {
+      memset(data, 0, nx*ny*sizeof(TCell));
     }
+  }
 
-    inline int size() const { return nx*ny; }
+  inline void resize(int pnx, int pny) {
+    nx = pnx;
+    ny = pny;
+    if (nx*ny <= nmax) return;
 
-    inline void clear() {
-        if (data) {
-            memset(data, 0, nx*ny*sizeof(TCell));
-        }
-    }
+    if (data) delete [] data;
 
-    inline void resize(int pnx, int pny) {
-        nx = pnx;
-        ny = pny;
-        if (nx*ny <= nmax) return;
-
-        if (data) delete [] data;
-
-        nmax = nx*ny;
-        data = new TCell[nmax];
-    }
+    nmax = nx*ny;
+    data = new TCell[nmax];
+  }
 };
 
 }

@@ -2,9 +2,9 @@
  *  \brief Enter description here.
  */
 
-#include "imtui/imtui.h"
-#include "imtui/imtui-impl-ncurses.h"
-#include "imtui/imtui-impl-text.h"
+#include <pf_imgui/backends/impl/imtui.h>
+#include <pf_imgui/backends/impl/imtui-impl-ncurses.h>
+#include <pf_imgui/backends/impl/imtui-impl-text.h>
 
 #ifdef _WIN32
 #define NCURSES_MOUSE_VERSION

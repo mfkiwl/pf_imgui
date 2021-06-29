@@ -2,9 +2,9 @@
  *  \brief Enter description here.
  */
 
-#include "imtui/imtui.h"
-#include "imtui/imtui-impl-emscripten.h"
-#include "imtui/imtui-impl-text.h"
+#include <pf_imgui/backends/impl/imtui.h>
+#include <pf_imgui/backends/impl/imtui-impl-emscripten.h>
+#include <pf_imgui/backends/impl/imtui-impl-text.h>
 
 #include <emscripten.h>
 

@@ -6,8 +6,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 
-#include "imtui/imtui.h"
-#include "imtui/imtui-impl-text.h"
+#include <pf_imgui/backends/impl/imtui.h>
+#include <pf_imgui/backends/impl/imtui-impl-text.h>
 
 #include <cmath>
 #include <vector>
