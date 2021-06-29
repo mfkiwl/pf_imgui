@@ -124,6 +124,7 @@ class PF_IMGUI_EXPORT MenuButtonItem
 };
 /**
  * @brief An item, which can be clicked and it toggles its inner value.
+ * @todo: make it possible to create persistent through parent
  */
 class PF_IMGUI_EXPORT MenuCheckboxItem
     : public MenuItem,

@@ -28,7 +28,7 @@ namespace pf::ui::ig {
  * May have a menu bar for additional controls.
  *
  * @TODO: ImGui::GetWindowDockId()-> need to have a getter for that and somehow change that to Dock name
- * @TODO: ImGui::IsWindowDocked()
+ * @TODO: dock id getter
  */
 class PF_IMGUI_EXPORT Window : public Renderable,
                                public ElementContainer,
