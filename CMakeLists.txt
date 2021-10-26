@@ -108,6 +108,7 @@ include_directories(src/include/imgui_memory_editor)
 include_directories(src/include/imgInspect)
 include_directories(src/include/ImGuiIcons)
 include_directories(src/include/imgui_notify)
+include_directories(src/include/imgui-node-editor)
 
 file(GLOB toml++_headers
         "${toml++_SOURCE_DIR}/include/toml++/*.h"
@@ -194,7 +195,12 @@ set(SOURCES
         src/pf_imgui/layouts/AnchorLayout.cpp
         src/pf_imgui/details/template_instantiations.cpp
         src/pf_imgui/elements/DockSpace.cpp
+        src/include/imgui-node-editor/crude_json.cpp
+        src/include/imgui-node-editor/imgui_canvas.cpp
+        src/include/imgui-node-editor/imgui_node_editor.cpp
+        src/include/imgui-node-editor/imgui_node_editor_api.cpp
 
+        src/pf_imgui/node_edit/TestNodeEdit.cpp
         )
 
 set(INCLUDES
@@ -357,6 +363,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURR
 target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include/imgInspect>)
 target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include/ImGuiIcons>)
 target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include/imgui_notify>)
+target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include/imgui-node-editor>)
 target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${toml++_SOURCE_DIR}/include>)
 target_link_libraries(${PROJECT_NAME} PUBLIC pf_common range-v3 StaticTypeInfo magic_enum)
 
