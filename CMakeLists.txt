@@ -21,9 +21,13 @@ endif ()
 include(${CPM_DOWNLOAD_LOCATION})
 
 option(ENABLE_STACKTRACE "enable stacktrace in exceptions" OFF)
+option(ENABLE_EXTERN_TEMPLATE "enable extern templates" ON)
 
 if (ENABLE_STACKTRACE)
     add_compile_definitions(STACKTRACE_ENABLE)
+endif ()
+if (ENABLE_EXTERN_TEMPLATE)
+    add_compile_definitions(PF_IMGUI_ENABLE_EXTERN_TEMPLATE)
 endif ()
 
 option(ENABLE_STYLES "enable style settings for each element" OFF)
@@ -33,12 +37,15 @@ if (ENABLE_STYLES)
 endif ()
 
 
-add_compile_definitions(PF_ENUM_OUT)
-
 set(CMAKE_CXX_STANDARD 20)
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+   # list(APPEND flags "/std:c++latest" "/Wall")
+else()
 list(APPEND flags "-fconcepts" "-fconcepts-diagnostics-depth=10" "-Werror=return-type" "-fcoroutines"
         "-Wall" "-Wextra" "-Werror" "-Wpedantic" "-Wno-unknown-pragmas" "-Wno-unused-function"
         "-Wpointer-arith" "-Wno-cast-qual" "-Wno-type-limits" "-fno-strict-aliasing")
+endif()
+
 if (CMAKE_BUILD_TYPE MATCHES Release)
     list(APPEND flags "-O3")
 elseif (CMAKE_BUILD_TYPE MATCHES ASAN)
@@ -65,21 +72,21 @@ if (ENABLE_STACKTRACE)
     CPMAddPackage(
             NAME pf_common
             GITHUB_REPOSITORY PetrFlajsingr/pf_common
-            GIT_TAG v1.1.0
+            GIT_TAG v1.1.1b
             OPTIONS "ENABLE_STACKTRACE ON"
     )
 else ()
     CPMAddPackage(
             NAME pf_common
             GITHUB_REPOSITORY PetrFlajsingr/pf_common
-            GIT_TAG v1.1.0
+            GIT_TAG v1.1.1b
     )
 endif ()
 
 CPMAddPackage(
         NAME toml++
         GITHUB_REPOSITORY marzer/tomlplusplus
-        GIT_TAG v2.2.0
+        GIT_TAG v2.5.0
 )
 
 CPMAddPackage(
@@ -100,7 +107,7 @@ include_directories(src/include/imgui_markdown)
 include_directories(src/include/imgui_memory_editor)
 include_directories(src/include/imgInspect)
 include_directories(src/include/ImGuiIcons)
-include_directories(src/include/imgui-node-editor)
+include_directories(src/include/imgui_notify)
 
 file(GLOB toml++_headers
         "${toml++_SOURCE_DIR}/include/toml++/*.h"
@@ -187,12 +194,7 @@ set(SOURCES
         src/pf_imgui/layouts/AnchorLayout.cpp
         src/pf_imgui/details/template_instantiations.cpp
         src/pf_imgui/elements/DockSpace.cpp
-        src/include/imgui-node-editor/crude_json.cpp
-        src/include/imgui-node-editor/imgui_canvas.cpp
-        src/include/imgui-node-editor/imgui_node_editor.cpp
-        src/include/imgui-node-editor/imgui_node_editor_api.cpp
 
-        src/pf_imgui/node_edit/TestNodeEdit.cpp
         )
 
 set(INCLUDES
@@ -354,7 +356,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURR
 target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include/imgui_memory_editor>)
 target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include/imgInspect>)
 target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include/ImGuiIcons>)
-target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include/imgui-node-editor>)
+target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include/imgui_notify>)
 target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${toml++_SOURCE_DIR}/include>)
 target_link_libraries(${PROJECT_NAME} PUBLIC pf_common range-v3 StaticTypeInfo magic_enum)
 

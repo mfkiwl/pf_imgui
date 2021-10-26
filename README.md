@@ -1,3 +1,6 @@
+### TODO
+Check the icon stuff in ImguiFileDialog.
+
 # pf_imgui
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/99e9063c82c943bcb5425edd46173ee5)](https://app.codacy.com/gh/PetrFlajsingr/pf_imgui?utm_source=github.com&utm_medium=referral&utm_content=PetrFlajsingr/pf_imgui&utm_campaign=Badge_Grade_Settings)
 [![Build Status](https://travis-ci.com/PetrFlajsingr/pf_imgui.svg?branch=master)](https://travis-ci.org/PetrFlajsingr/pf_imgui)
@@ -9,7 +12,7 @@
 
 [Documentation](https://petrflajsingr.github.io/pf_imgui/)
 
-This library is a wrapper around [DearImGui](https://github.com/ocornut/imgui).
+This library is a wrapper of [DearImGui](https://github.com/ocornut/imgui).
 
 # Examples
 In these examples `imgui` is an instance of `std::unique_ptr<ImGuiInterface>`. Examples only show basic usage, the classes usually have more functionality.

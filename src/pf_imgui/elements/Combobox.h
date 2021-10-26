@@ -94,7 +94,7 @@ class PF_IMGUI_EXPORT Combobox : public CustomCombobox<T, Selectable>,
    * Set selected item. If no such item is found the selection is cancelled.
    * @param item item to be selected
    */
-  void setSelectedItem(T &itemToSelect) {
+  void setSelectedItem(T &&itemToSelect) {
     if constexpr (std::equality_comparable<T>) {
       if (const auto iter = std::ranges::find_if(
               items, [&itemToSelect](const auto &item) { return item.first == itemToSelect; });
@@ -191,8 +191,9 @@ class PF_IMGUI_EXPORT Combobox : public CustomCombobox<T, Selectable>,
   std::optional<unsigned int> selectedItemIndex = std::nullopt;
 };
 
+#ifdef PF_IMGUI_ENABLE_EXTERN_TEMPLATE
 extern template class Combobox<std::string>;
-
+#endif
 }// namespace pf::ui::ig
 
 #endif//PF_IMGUI_SRC_PF_IMGUI_ELEMENTS_COMBOBOX_H
