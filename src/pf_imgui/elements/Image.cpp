@@ -6,16 +6,18 @@
 #include <imgui_internal.h>
 #include <utility>
 
+#include <iostream>
 namespace pf::ui::ig {
 
 Image::Image(const std::string &elementName, ImTextureID imTextureId, const Size &size, IsButton isBtn,
-             Image::UvMappingProvider uvTextureMappingProvider)
+             bool detectMousePositionEnabled, Image::UvMappingProvider uvTextureMappingProvider)
     : ItemElement(elementName), Resizable(size), isButton_(isBtn == IsButton::Yes), textureId(imTextureId),
       uvMappingProvider(std::move(uvTextureMappingProvider)) {}
 
 void Image::renderImpl() {
   auto colorStyle = setColorStack();
   const auto [uvStart, uvEnd] = uvMappingProvider();
+
   if (isButton_) {
     if (ImGui::ImageButton(textureId, getSize().asImVec(), uvStart, uvEnd)) { notifyOnClick(); }
   } else {

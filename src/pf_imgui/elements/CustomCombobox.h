@@ -18,6 +18,11 @@ namespace pf::ui::ig {
 
 enum class ComboBoxCount { Items4 = 1 << 1, Items8 = 1 << 2, Items20 = 1 << 3, ItemsAll = 1 << 4 };
 
+// TODO:
+// ImGuiComboFlags_PopupAlignLeft
+// ImGuiComboFlags_NoArrowButton
+// ImGuiComboFlags_NoPreview
+
 /**
  * @brief Combobox where rows can be whatever is provided by the user.
  *
@@ -78,9 +83,9 @@ class PF_IMGUI_EXPORT CustomCombobox : public CustomItemBox<T, R>, public Labell
     auto style = setStyleStack();
     const char *previewPtr = previewValue.c_str();
     if (ImGui::BeginCombo(getLabel().c_str(), previewPtr, *flags)) {
+      RAII end{[] { ImGui::EndCombo(); }};
       checkClose();
       std::ranges::for_each(CustomItemBox<T, R>::filteredItems, [](auto item) { item->second->render(); });
-      ImGui::EndCombo();
     }
   }
 

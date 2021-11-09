@@ -23,6 +23,15 @@ void ItemElement::render() {
   Element::render();
   setHovered(ImGui::IsItemHovered());
   updateFocused(ImGui::IsItemFocused());
+
+  if (isHovered()) {
+    auto newMousePos = ImGui::GetMousePos() - ImGui::GetItemRectMin();
+    if (newMousePos.x != lastMousePosition.x && newMousePos.y != lastMousePosition.y) {
+      lastMousePosition = newMousePos;
+      mousePositionObservable.notify(lastMousePosition);
+    }
+  }
+
   if (tooltip != nullptr) {
     if (getVisibility() == Visibility::Visible && isHovered()) { tooltip->render(); }
   }
@@ -52,7 +61,7 @@ void ItemElement::setFocus() {
 }
 
 Tooltip &ItemElement::getTooltip() {
-#ifndef _MSC_VER // TODO: MSVC internal error
+#ifndef _MSC_VER// TODO: MSVC internal error
   if (tooltip == nullptr) { throw StackTraceException("Tooltip doesn't exist in {}", getName()); }
 #endif
   return *tooltip;
@@ -66,7 +75,7 @@ PopupMenu &ItemElement::createPopupMenu() {
 }
 
 PopupMenu &ItemElement::getPopupMenu() {
-#ifndef _MSC_VER // TODO: MSVC internal error
+#ifndef _MSC_VER// TODO: MSVC internal error
   if (tooltip == nullptr) { throw StackTraceException("Popup menu doesn't exist in {}", getName()); }
 #endif
   return *popupMenu;

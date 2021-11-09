@@ -23,6 +23,7 @@ void Window::renderImpl() {
   auto style = setStyleStack();
   auto flags = createWindowFlags();
   auto isNotClosed = true;
+  RAII endPopup{[] { ImGui::End(); }};
   if (ImGui::Begin(getLabel().c_str(), (closeable ? &isNotClosed : nullptr), flags)) {
     isWindowDocked = ImGui::IsWindowDocked();
     if (firstPass) {
@@ -51,7 +52,6 @@ void Window::renderImpl() {
       }
     }
   }
-  ImGui::End();
   if (!isNotClosed) {
     closeObservableImpl.notify();
     setVisibility(Visibility::Invisible);
@@ -102,11 +102,36 @@ void Window::setPosition(ImVec2 pos) {
   Positionable::setPosition(pos);
 }
 
+bool Window::isUserResizable() const { return userResizable; }
+
+void Window::setUserResizable(bool resizable) { userResizable = resizable; }
+
+bool Window::isUserMovable() const { return userMovable; }
+
+void Window::setUserMovable(bool movable) { userMovable = movable; }
+
+bool Window::isAutoResize() const { return autoResizeToContent; }
+
+void Window::setAutoResize(bool autoResize) { autoResizeToContent = autoResize; }
+
+bool Window::isHorizontalScrollEnabled() const { return enableHorizontalScroll; }
+
+void Window::setHorizontalScrollEnabled(bool horizontalScroll) { enableHorizontalScroll = horizontalScroll; }
+
+bool Window::isDisplayDot() const { return displayDot; }
+
+void Window::setDisplayDot(bool display) { displayDot = display; }
+
 ImGuiWindowFlags Window::createWindowFlags() {
   ImGuiWindowFlags result = hasMenuBar() ? ImGuiWindowFlags_MenuBar : ImGuiWindowFlags{};
   if (!isCollapsible()) { result |= ImGuiWindowFlags_NoCollapse; }
-  if (getLabel().empty()) { result |= ImGuiWindowFlags_NoTitleBar; }
+  if (!titleBarVisible) { result |= ImGuiWindowFlags_NoTitleBar; }
   if (!isDockArea) { result |= ImGuiWindowFlags_NoDocking; }
+  if (!userResizable) { result |= ImGuiWindowFlags_NoResize; }
+  if (!userMovable) { result |= ImGuiWindowFlags_NoMove; }
+  if (autoResizeToContent) { result |= ImGuiWindowFlags_AlwaysAutoResize; }
+  if (enableHorizontalScroll) { result |= ImGuiWindowFlags_HorizontalScrollbar; }
+  if (displayDot) { result |= ImGuiWindowFlags_UnsavedDocument; }
   return result;
 }
 
@@ -146,5 +171,7 @@ std::vector<Renderable *> Window::getRenderables() {
   if (menuBar != nullptr) { result.emplace_back(menuBar.get()); }
   return result;
 }
+bool Window::isTitleBarVisible() const { return titleBarVisible; }
+void Window::setTitleBarVisible(bool visible) { titleBarVisible = visible; }
 
 }// namespace pf::ui::ig

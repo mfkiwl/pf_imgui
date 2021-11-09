@@ -94,10 +94,10 @@ class PF_IMGUI_EXPORT Combobox : public CustomCombobox<T, Selectable>,
    * Set selected item. If no such item is found the selection is cancelled.
    * @param item item to be selected
    */
-  void setSelectedItem(T &&itemToSelect) {
+  void setSelectedItem(const T &itemToSelect) requires(!std::same_as<T, std::string>) {
     if constexpr (std::equality_comparable<T>) {
-      if (const auto iter = std::ranges::find_if(
-              items, [&itemToSelect](const auto &item) { return item.first == itemToSelect; });
+      if (const auto iter =
+              std::ranges::find_if(items, [&itemToSelect](const auto &item) { return item.first == itemToSelect; });
           iter != items.end()) {
         const auto index = std::distance(items.begin(), iter);
         setSelectedItemByIndex(index);
@@ -112,8 +112,8 @@ class PF_IMGUI_EXPORT Combobox : public CustomCombobox<T, Selectable>,
    * @param itemAsString item to be selected
    */
   void setSelectedItem(const std::string &itemAsString) {
-    if (const auto iter =
-            std::ranges::find_if(items, [itemAsString](const auto &item) { return item.second->getLabel() == itemAsString; });
+    if (const auto iter = std::ranges::find_if(
+            items, [itemAsString](const auto &item) { return item.second->getLabel() == itemAsString; });
         iter != items.end()) {
       const auto index = std::distance(items.begin(), iter);
       setSelectedItemByIndex(index);
@@ -176,13 +176,13 @@ class PF_IMGUI_EXPORT Combobox : public CustomCombobox<T, Selectable>,
       previewPtr = getPreviewValue().c_str();
     }
     if (ImGui::BeginCombo(getLabel().c_str(), previewPtr, *flags)) {
+      RAII end{[] { ImGui::EndCombo(); }};
       checkClose();
       std::ranges::for_each(filteredItems | ranges::views::enumerate, [this](const auto &itemIdx) {
         const auto &[idx, item] = itemIdx;
         item->second->render();
         if (item->second->getValue()) { setSelectedItemByIndex(idx); }
       });
-      ImGui::EndCombo();
     }
     if (selectedItemIndex.has_value()) { DragSource<T>::drag(filteredItems[*selectedItemIndex]->first); }
   }
